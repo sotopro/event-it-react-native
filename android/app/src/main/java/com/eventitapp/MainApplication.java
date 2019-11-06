@@ -30,16 +30,12 @@ public class MainApplication extends Application implements ReactApplication {
 
         @Override
         protected List<ReactPackage> getPackages() {
-          
-          @SuppressWarnings("UnnecessaryLocalVariable")
           return Arrays.<ReactPackage>asList(
-          // Packages that cannot be autolinked yet can be added manually here, for example:
-          // packages.add(new MyReactNativePackage());
-          new MainReactPackage(),
-            new RNDeviceInfo(),
-          new ReactNativeConfigPackage(),
-          new EditTextCustomPackage(),
-          return packages;
+            new MainReactPackage(),
+              new RNDeviceInfo(),
+            new ReactNativeConfigPackage(),
+            new EditTextCustomPackage()
+          );
         }
 
         @Override
