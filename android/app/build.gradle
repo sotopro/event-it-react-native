@@ -82,12 +82,6 @@ project.ext.react = [
 
 apply from: "../../node_modules/react-native/react.gradle"
 
-project.ext.envConfigFiles = [
-        debug: ".env.qa",
-        release: ".env.dev"
-]
-apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
-
 /**
  * Set this to true to create two separate APKs instead of one:
  *   - An APK that only works on ARM devices
@@ -101,7 +95,7 @@ def enableSeparateBuildPerCPUArchitecture = false
 /**
  * Run Proguard to shrink the Java bytecode in release builds.
  */
-def enableProguardInReleaseBuilds = true
+def enableProguardInReleaseBuilds = false
 
 /**
  * The preferred build flavor of JavaScriptCore.
@@ -128,18 +122,13 @@ def enableHermes = project.ext.react.get("enableHermes", false);
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    packagingOptions {
-        pickFirst '**/libjsc.so'
-        pickFirst '**/libc++_shared.so'
-    }
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
     defaultConfig {
-        applicationId "com.eventitapp"
+        applicationId "com.eventit"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -168,11 +157,8 @@ android {
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://facebook.github.io/react-native/docs/signed-apk-android.
-            //shrinkResources enableProguardInReleaseBuilds
-            //zipAlignEnabled enableProguardInReleaseBuilds
-            aaptOptions.cruncherEnabled=false
+            signingConfig signingConfigs.debug
             minifyEnabled enableProguardInReleaseBuilds
-            //useProguard enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
     }
@@ -193,7 +179,6 @@ android {
 }
 
 dependencies {
-    implementation project(':react-native-device-info')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.facebook.react:react-native:+"  // From node_modules
 
